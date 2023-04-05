@@ -1,0 +1,299 @@
+---
+title: "Assignment Group EDA"
+output: html_notebook
+---
+
+ 
+
+```{r}
+library(readr)
+data = read_csv("C:\\Users\\Hafiz Asyraaf\\OneDrive\\Desktop\\BSD3433 EDA\\Group project\\ceramic.csv")
+data
+```
+
+
+
+
+```{r}
+## Fit a model with up to third order interactions.
+results=aov(strength~(speed+rate+grit+direction+batch)^3,data=data)
+summary(results)
+```
+Based on the summary above, it shown some of significant factor and non-significant factor in from the dataset
+
+Significant :-
+
+-speed
+-speed:grit
+-speed:direction
+-speed:batch
+-rate:grit
+-rate:batch
+-grit:batch
+-direction:batch
+-speed:rate:grit 
+-speed:rate:batch
+-speed:grit:direction
+-speed:grit:batch
+-speed:direction:batch     
+-rate:grit:direction       
+-rate:grit:batch           
+-rate:direction:batch      
+-grit:direction:batch 
+
+```{r}
+## Remove non-significant terms from the stepwise model.
+redmod = aov(formula = strength ~ speed + rate + grit + direction + 
+            batch + speed:rate + speed:grit + speed:direction +  
+            rate:direction + grit:direction + direction:batch + 
+            speed:rate:direction, data = data)
+summary(redmod)
+```
+```{r}
+library(gplots)
+```
+MAIN EFFECT
+
+```{r}
+plotmeans(strength~speed,xlab="Factor speed",ylab="Strength", main="Main effect Plot",barcol="blue",data=data)
+```
+
+```{r}
+plotmeans(strength~rate,xlab="Factor Rate",ylab="Strength", main="Main effect Plot",barcol="blue",data=data)
+```
+```{r}
+plotmeans(strength~grit,xlab="Factor Grit",ylab="Strength", main="Main effect Plot",barcol="blue",data=data)
+```
+```{r}
+plotmeans(strength~direction,xlab="Factor Direction",ylab="Strength", main="Main effect Plot",barcol="blue",data=data)
+```
+
+```{r}
+plotmeans(strength~batch,xlab="Factor Batch",ylab="Strength", main="Main effect Plot",barcol="blue",data=data)
+```
+
+
+ITERATION PLOT
+
+speed : Rate
+```{r}
+interaction.plot(x.factor = data$speed, #x-axis variable
+                 trace.factor = data$rate, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "speed",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "rate")
+```
+
+
+speed : Grit
+```{r}
+interaction.plot(x.factor = data$speed, #x-axis variable
+                 trace.factor = data$grit, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "speed",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "grit")
+```
+
+speed:Direction
+
+```{r}
+interaction.plot(x.factor = data$speed, #x-axis variable
+                 trace.factor = data$direction, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "speed",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "direction")
+```
+
+speed : Batch
+```{r}
+interaction.plot(x.factor = data$speed, #x-axis variable
+                 trace.factor = data$batch, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "speed",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "batch")
+```
+
+Rate : Grit
+```{r}
+interaction.plot(x.factor = data$rate, #x-axis variable
+                 trace.factor = data$grit, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "rate",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "grit")
+```
+
+Rate:Direction
+```{r}
+interaction.plot(x.factor = data$rate, #x-axis variable
+                 trace.factor = data$direction, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "rate",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "direction")
+```
+
+```{r}
+interaction.plot(x.factor = data$rate, #x-axis variable
+                 trace.factor = data$batch, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "rate",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "batch")
+```
+
+Grit : Direction
+```{r}
+interaction.plot(x.factor = data$grit, #x-axis variable
+                 trace.factor = data$direction, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "grit",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "direction")
+```
+Grit : Batch
+```{r}
+interaction.plot(x.factor = data$grit, #x-axis variable
+                 trace.factor = data$batch, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "grit",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "batch")
+```
+
+Direction : Batch
+```{r}
+interaction.plot(x.factor = data$direction, #x-axis variable
+                 trace.factor = data$batch, #variable for lines
+                 response = data$strength, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "strength",
+                 xlab = "direction",
+                 col = c("pink", "blue"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "batch")
+```
+
+```{r}
+results$effects
+```
+
+```{r}
+effects <- abs(results$effects[-1]) # -1 to avoid the effect
+qq <- qqnorm(effects) 
+text(qq$x, qq$y, labels = names(effects))
+```
+
+
+MODEL ADEQUACY
+```{r}
+#find residual
+residuals <- resid(results)
+residuals
+```
+
+```{r}
+predicted= predict(results)
+predicted
+```
+
+
+NORMAL 
+
+```{r}
+library(ggplot2)
+library(ggpubr)
+ggqqplot(residuals)
+```
+Based on the normality of the residual plot, the residual not inline for certain values, we could say 
+that the assumption of the normality is not satisfy. The graph also have an outlier
+
+
+Test normaliy of the residuals using Shapiro-Wilk Test
+```{r}
+shapiro.test(residuals)
+```
+$H_{0}$: The residuals is normally distributed\
+$H_{1}$: The residuals is not normally distributed\
+$p-value=0.2757$\
+Since ($p-value=0.2757$)$>$($\alpha=0.05$), do not reject $H_{0}$.\
+At $\alpha=0.05$, The residuals is normally distributed\
+
+CONSTANT VARIANCE
+
+```{r}
+#plot residual vs predicted
+plot(predicted, residuals)
+```
+
+```{r}
+plot(lm(residuals~predicted))
+```
+
+the plot show a random scattering of points above and below the reference line at a horizontal 0. It is constant variance.
+
+INDEPENDENCE
+```{r}
+#plot residuals vs observations
+plot(data$strength,residuals)
+```
+
+Perform Durbin-Watson test
+```{r}
+library(car)
+```
+
+```{r}
+durbinWatsonTest(residuals)
+```
+
+```{r}
+durbinWatsonTest(results)
+```
+
+$H_{0}$: There is no correlation among the residuals.\
+$H_{1}$: The residuals are autocorrelated\
+$p-value=0.6080$\
+Since ($p-value=0.6080$)$>$($\alpha=0.05$), do not reject $H_{0}$.\
+At $\alpha=0.05$, There is no correlation among the residuals.\
