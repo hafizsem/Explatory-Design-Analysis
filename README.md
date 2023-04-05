@@ -1,4 +1,4 @@
-# Explatory-Design-Analysis
+# Statistical Modelling Simulation
 Ceramic Factorial Design
 
 A ceramic tile manufacturing by UBA Ceramic Sdn. Bhd. was facing issues with its ceramic tile production line. The tiles were breaking easily during installation and customers were complaining about the poor quality of the tiles. The company realized that it needed to increase the strength of its ceramic tiles to meet the demands of its customers and to improve its reputation in the market.
